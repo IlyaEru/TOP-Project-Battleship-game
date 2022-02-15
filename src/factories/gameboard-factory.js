@@ -153,6 +153,11 @@ const board = function boardFactory() {
     });
     shipNames = Object.keys(allShips);
   }
+  function resetBoardHits() {
+    body.forEach((element) => {
+      element.isShot = false;
+    });
+  }
   return {
     body,
     showShips,
@@ -166,6 +171,7 @@ const board = function boardFactory() {
     isPlaceable,
     removeShipFromArray,
     resetBoard,
+    resetBoardHits,
   };
 };
 export default board;

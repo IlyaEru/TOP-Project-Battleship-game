@@ -135,6 +135,7 @@ function initialEvent() {
     if (Number(shipsLeftCount.textContent) !== 0) {
       return;
     }
+    choiceBoard.resetBoardHits();
     init(choiceBoard);
     choiceModal.classList.add('hidden');
   });
