@@ -1,5 +1,8 @@
+import ship from './ship-factroy';
+
 const board = function boardFactory() {
   const body = [];
+  const showShips = false;
   for (let i = 0; i < 100; i += 1) {
     body.push({ isShot: false, hasShip: false });
   }
@@ -9,6 +12,9 @@ const board = function boardFactory() {
   function hasShip(shotIndex) {
     return body[shotIndex].hasShip;
   }
+  function getRandomNumber(number) {
+    return Math.floor(Math.random() * number);
+  }
   function allShipsSunk() {
     let shipsSunk = true;
     body.forEach((cell) => {
@@ -17,6 +23,66 @@ const board = function boardFactory() {
       }
     });
     return shipsSunk;
+  }
+  function areAllShipsSunk() {
+    if (!body.find((x) => x.hasShip === true)) {
+      return false;
+    }
+    if (body.find((x) => x.hasShip === true && x.isShot === false)) {
+      return false;
+    }
+
+    return true;
+  }
+  function isPlaceable(startIndex, shipObj) {
+    let testIndex = startIndex;
+    if (shipObj.isHorizontal() === false) {
+      if ((testIndex + shipObj.body.length * 10) > 99 && shipObj.body.length > 1) {
+        return false;
+      }
+      for (let i = 0; i < shipObj.body.length; i += 1) {
+        if (body[testIndex].hasShip === true) {
+          return false;
+        }
+        testIndex += 10;
+      }
+    } else {
+      let firstIteration = true;
+      if ((startIndex + shipObj.body.length) > 99 && shipObj.body.length > 1) {
+        return false;
+      }
+      for (let i = 0; i < shipObj.body.length; i += 1) {
+        if (firstIteration === false) {
+          switch (testIndex) {
+            case 10:
+              return false;
+            case 20:
+              return false;
+            case 30:
+              return false;
+            case 40:
+              return false;
+            case 50:
+              return false;
+            case 60:
+              return false;
+            case 70:
+              return false;
+            case 80:
+              return false;
+            case 90:
+              return false;
+            default: break;
+          }
+        }
+        firstIteration = false;
+        if (body[testIndex].hasShip === true) {
+          return false;
+        }
+        testIndex += 1;
+      }
+    }
+    return true;
   }
   function placeShip(startIndex, ship) {
     const shipLocation = [];
@@ -36,12 +102,70 @@ const board = function boardFactory() {
     }
     return shipLocation;
   }
+  function placeShipsRandomly() {
+    body.forEach((elem) => {
+      elem.isShot = false;
+      elem.hasShip = false;
+    });
+    const ships = {
+      carrier: ship(5),
+      battleship: ship(4),
+      destroyer: ship(3),
+      submarine_1: ship(2),
+      submarine_2: ship(2),
+      patrolBoat_1: ship(1),
+      patrolBoat_2: ship(1),
+    };
+    const shipNames = Object.keys(ships);
+    shipNames.forEach((shipName) => {
+      if (getRandomNumber(2) === 0) {
+        ships[shipName].setHorizontally();
+      }
+      let randomStartIndex = getRandomNumber(100);
+      while (isPlaceable(randomStartIndex, ships[shipName]) === false) {
+        randomStartIndex = getRandomNumber(100);
+      }
+      placeShip(randomStartIndex, ships[shipName]);
+    });
+  }
+  const allShips = {
+    carrier: ship(5),
+    battleship: ship(4),
+    destroyer: ship(3),
+    submarine_1: ship(2),
+    submarine_2: ship(2),
+    patrolBoat_1: ship(1),
+    patrolBoat_2: ship(1),
+  };
+  let shipNames = Object.keys(allShips);
+
+  function getNextShip() {
+    const nextShip = allShips[shipNames[0]];
+    return nextShip;
+  }
+  function removeShipFromArray() {
+    shipNames.splice(0, 1);
+  }
+  function resetBoard() {
+    body.forEach((element) => {
+      element.hasShip = false;
+      element.isShot = false;
+    });
+    shipNames = Object.keys(allShips);
+  }
   return {
     body,
+    showShips,
     receiveAttack,
     placeShip,
     hasShip,
     allShipsSunk,
+    placeShipsRandomly,
+    areAllShipsSunk,
+    getNextShip,
+    isPlaceable,
+    removeShipFromArray,
+    resetBoard,
   };
 };
 export default board;

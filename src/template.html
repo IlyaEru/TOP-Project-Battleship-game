@@ -6,13 +6,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battleship</title>
-    <script src="main.js" defer></script>
 </head>
 <body>
+    <div id="winner-modal" >
+        <div class="winner-modal-content">
+            <h2 class="winner-header">Won</h2>
+            <button class="btn play-again-btn">Play Again</button>
+        </div>
+    </div>
+    <div id="ship-choice-modal" >
+        <div class="ship-choice-modal-content">
+            <h2 class="welcome-msg">Welcome to Battleship!</h2>
+            <h3 class="place-ship-txt">Please place your Ships</h3>
+            <div class="info">
+                <span class="ships-left"><span class="ships-left__value">7 </span><br> Ships left</span>
+                <img class="info-img rotate-ship" src="" title="Rotate current ship" alt="Rotate current ship">
+                <img class="info-img clear-all" src="" title="clear all" alt="clear all">
+
+            </div>
+            <div class="choice-board"></div>
+            <button class="btn random-btn">Random</button>
+            <button class="btn confirm">Confirm</button>
+            <div class="ship-drag"></div>
+        </div>
+    </div>
     <header><h1 class="main-header">Battleship</h1></header>
     <main>
-        <div class="board"></div>
-        <div class="board"></div>
+        <div class="board-wrapper">
+            <h2 class="board-header player-name">Your Fleet</h2>
+            <div id="board-1" class="board"></div>
+
+        </div>
+        <div  class="board-wrapper">
+            <h2 class="board-header robot-name">Enemy Fleet</h2>
+            <div id="board-2" class="board"></div>
+        </div>
     </main>
     <footer>
         <img class="github-icon" src="" alt="github link">

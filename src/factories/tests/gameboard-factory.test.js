@@ -55,3 +55,26 @@ test('should return false if all the ships have not sunk', () => {
   newBoard.receiveAttack(shipArray[0]);
   expect(newBoard.allShipsSunk()).toBe(false);
 });
+test('showShip should be true', () => {
+  const newBoard = board();
+  newBoard.showShips = true;
+  expect(newBoard.showShips).toBe(true);
+});
+test('areAllShipsSunk should not return true if no ships were placed', () => {
+  const newBoard = board();
+  expect(newBoard.areAllShipsSunk()).toBe(false);
+});
+test('areAllShipsSunk should return true if all the ships have sunk', () => {
+  const newBoard = board();
+  const newShip = ship(1);
+  newBoard.placeShip(2, newShip);
+  newBoard.receiveAttack(2);
+  expect(newBoard.areAllShipsSunk()).toBe(true);
+});
+test('areAllShipsSunk should return false if all the ships have not sunk', () => {
+  const newBoard = board();
+  const newShip = ship(2);
+  newBoard.placeShip(2, newShip);
+  newBoard.receiveAttack(2);
+  expect(newBoard.areAllShipsSunk()).toBe(false);
+});

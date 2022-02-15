@@ -1,6 +1,13 @@
 const ship = function shipFactory(length) {
   const body = [];
+  const location = [];
   let horizontal = false;
+  function setLocation(locationArray) {
+    locationArray.map((locationIndex) => location.push(locationIndex));
+  }
+  function getLocation() {
+    return location;
+  }
   for (let i = 0; i < length; i += 1) {
     body.push('');
   }
@@ -29,6 +36,8 @@ const ship = function shipFactory(length) {
     setHorizontally,
     isHorizontal,
     setVertically,
+    setLocation,
+    getLocation,
   };
 };
 export default ship;

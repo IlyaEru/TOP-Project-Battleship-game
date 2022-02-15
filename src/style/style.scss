@@ -5,8 +5,164 @@
     font-family: army-font;
     src: url(Top\ Secret.ttf);
   }
+  @font-face {
+    font-family: black-ops;
+    src: url(BlackOpsOne-Regular.ttf);
+  }
 :root {
     font-size: calc(0.625rem + 0.4vw);
+    @media screen and (max-width: 1050px) {
+        font-size: calc(0.4rem + 0.4vw);
+    }
+  }
+  /* Winner modal */
+  .btn{
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+    &:hover, &:focus{
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        color: rgba(0, 0, 0, 0.65);
+    }
+    &:active{
+        transform: scale(0.97);
+    }
+  }
+
+
+  #winner-modal{
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4);
+      .winner-modal-content{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        border-radius: 20px;
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        height: 30%;
+      }
+      &.show{
+          display: block;
+      }
+  }
+  #ship-choice-modal{
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.7);
+    &.hidden{
+        display: none;
+    }
+    .ship-choice-modal-content{
+        display: grid;
+        grid-template: repeat(5, auto) / repeat(2, 1fr);
+        border-radius: 20px;
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        @media screen and (max-width: 800px) {
+        width: fit-content;        }
+        text-align: center;
+        justify-items: center;
+        .welcome-msg {
+            grid-column: 1 / -1;
+            margin: 0;
+        }
+        .place-ship-txt {
+            grid-column: 1 / -1;
+            margin: 0.5rem;
+            font-weight: 500;
+        }
+        .info{
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            justify-items: center;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            .ships-left__value {
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+            .info-img {
+                height: 2rem;
+                width: 2rem;
+                cursor: pointer;
+                &:active{
+                    transform: scale(0.95);
+                }
+                &.horizontal{
+                    transform: rotate(90deg);
+                }
+            }
+        }
+        .choice-board{
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template: repeat(10, 2rem) / repeat(10, 2rem);
+            @media screen and (max-width: 800px) {
+                grid-template: repeat(10, 1.5rem) / repeat(10, 1.5rem);
+            }
+            margin-bottom: 1rem;
+            background: gainsboro;
+            gap: 3px;
+            border: 3px solid gainsboro;
+            .cell{
+                background: white;
+            &.ship-show{
+                background-color: rgba(95, 158, 160, 0.596);
+
+            }
+            &.has-ship{
+                background-color: cadetblue;
+            }
+            }
+        }
+    }
   }
   /* Body */
   body {
@@ -16,22 +172,75 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: space-between;
+background: #eff6ff;
   }
 /* Header */
 header{
-    .main-header{
+    .main-header {
         font-family: army-font;
+        letter-spacing: 2px;
+        font-size: 3rem;
+        margin: 1rem;
     }
 }
 /* Main */
+$cell-seperation-color: gainsboro;
 main{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    @media screen and (max-width: 700px) {
+        grid-template-columns: auto;
+        grid-template-rows: 1fr 1fr;
+    }
     flex: 1;
     width: 100%;
+    .board-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .player-name, .robot-name{
+        font-family: black-ops;
+        letter-spacing: 1px;
+        border-bottom: 2px solid gainsboro;
+        margin-bottom: 0;
+    }
+    .player-name {
+        color: green;
+    }
+    .robot-name {
+        color: crimson;
+    }
     .board{
+        height: fit-content;
+        width: fit-content;
+        margin: 2rem;
         display: grid;
-        grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+        background: $cell-seperation-color;
+        gap: 3px;
+        border: 3px solid $cell-seperation-color;
+        grid-template: repeat(10, 3rem) / repeat(10, 3rem);
+        box-shadow: 0 0 6px 0px #0000008f;
+        .cell{
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .fire-img {
+                height: 80%;
+            }
+            &:active{
+                &>img{
+                    transform: scale(0.96);
+                }
+            }
+        }
+        .cell.has-ship {
+            background: cadetblue;
+        }
+        .cell.has-ship.is-shot{
+            background: #f44336ad;
+        }
     }
 }
 /* footer */
@@ -42,13 +251,13 @@ footer{
     justify-content: center;
     align-items: center;
     gap: 10px;
-    height: 40px;
+    height: fit-content;
     width: 100%;
     padding-bottom: 3px;
 }
 footer img{
-    height: 40px;
-    width: 40px;
+    height: 2rem;
+    width: 2rem;
     filter: brightness(0) invert(1);
 }
 footer a{

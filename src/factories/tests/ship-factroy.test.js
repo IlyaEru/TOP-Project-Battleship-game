@@ -37,3 +37,9 @@ test('should be vertical', () => {
   newShip.setVertically();
   expect(newShip.isHorizontal()).toBe(false);
 });
+
+test('should have ship location', () => {
+  const newShip = ship(2);
+  newShip.setLocation([1, 2]);
+  expect(newShip.getLocation()).toEqual([1, 2]);
+});
